@@ -1,0 +1,18 @@
+/**********************************************************************/
+/* Author       : Sharan Kolluru                                      */
+/* Created Date : 14.03.2022                                          */
+/* Test Class   :                                                     */
+/* Description  : Account Trigger                                     */
+/* ------------------------- Change Logs ---------------------------- */
+/* Changed By   : Date      : Description                             */
+/**********************************************************************/
+trigger LTS_Account on Account (after update)
+{
+    //Solution 01: Track History
+    if(Trigger.isAfter && Trigger.isUpdate) {
+        AccountHistory.OnUpdateAccountHistory(Trigger.new, Trigger.oldMap);
+    }
+    
+    //Solution 02: Using Trigger Handler
+    //AccountHistory.HandleTrigger(Trigger.new, Trigger.oldMap, Trigger.operationType);
+}
