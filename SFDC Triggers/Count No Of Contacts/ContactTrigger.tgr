@@ -1,0 +1,15 @@
+trigger ContactTrigger on Contact(after insert,after update,after delete,after undelete) 
+{
+  //when the record is inserted and undeleted increment count
+  if((Trigger.isAfter && Trigger.isInsert) ||(Trigger.isAfter && Trigger.isUndelete)) {
+    ContactHandler.incrementCount(Trigger.new);
+  }
+  //when updated and the parent is changed decrement it
+  if((Trigger.isAfter && Trigger.isUpdate)) {
+    ContactHandler.decrementCount(Trigger.oldMap, Trigger.newMap);
+  }
+  //when deleted dercement it
+  if(Trigger.isAfter && Trigger.isDelete) {
+    ContactHandler.decrementDeleteCount(Trigger.oldMap);
+  }
+}
