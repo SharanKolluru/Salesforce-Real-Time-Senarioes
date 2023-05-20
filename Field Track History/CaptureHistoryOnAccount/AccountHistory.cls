@@ -8,21 +8,10 @@
 /**********************************************************************/
 public with sharing class AccountHistory {
 	
-    /*
-    //Solution 02: Using Trigger Handler
-    public static void HandleTrigger(List<Account> newRecords, Map<ID,Account> oldRecordMap, System.TriggerOperation triggerEvent) {
-    	switch on triggerEvent {
-			when AFTER_UPDATE { 
-                OnUpdateAccountHistory(newRecords, oldRecordMap);
-            }
-        }
-    }
-	*/
-	
-  //Solution O1: Track History
+  	//Solution O1: Track History
 	public static void OnUpdateAccountHistory(List<Account> newRecords, Map<ID,Account> oldRecordMap){
 
-        final List<Schema.FieldSetMember> trackedFields = SObjectType.Account.FieldSets.HistoryTracking.getFields();
+        	final List<Schema.FieldSetMember> trackedFields = SObjectType.Account.FieldSets.HistoryTracking.getFields();
 
 		if(trackedFields.isEmpty()) {
   			System.debug('No data found in Account.FieldSets.HistoryTracking');
@@ -56,19 +45,30 @@ public with sharing class AccountHistory {
 
       			final Account_History__c accHis = new Account_History__c();
 
-                accHis.Field_Label__c = fieldLabel; 
-                accHis.API_Name__c = fieldName;
-                accHis.Account_Id__c = newaccount.Id;
-                accHis.Changed_By__c = UserInfo.getUserId();
-                accHis.Old_Value__c = oldValue;
-                accHis.New_Value__c = newValue;
+			accHis.Field_Label__c = fieldLabel; 
+			accHis.API_Name__c = fieldName;
+			accHis.Account_Id__c = newaccount.Id;
+			accHis.Changed_By__c = UserInfo.getUserId();
+			accHis.Old_Value__c = oldValue;
+			accHis.New_Value__c = newValue;
 
-      			fieldChanges.add(accHis);
-    		}
+			fieldChanges.add(accHis);
+    			}
   		}
 
-    	if(!fieldChanges.isEmpty()){
-      		insert fieldChanges;
+    		if(!fieldChanges.isEmpty()){
+      			insert fieldChanges;
 		}
 	}
+															
+	/*
+	//Solution 02: Using Trigger Handler
+    	public static void HandleTrigger(List<Account> newRecords, Map<ID,Account> oldRecordMap, System.TriggerOperation triggerEvent) {
+    		switch on triggerEvent {
+			when AFTER_UPDATE { 
+                	OnUpdateAccountHistory(newRecords, oldRecordMap);
+            	}
+        	}
+    	}
+	*/														
 }
