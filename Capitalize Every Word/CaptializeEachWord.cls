@@ -1,6 +1,6 @@
 public class CaptializeEachWord {
 
-  //Method: To Captialize Every Word In Sentence.
+  // Method: To Captialize Every Word In Sentence.
   public static void CaptializeWord() {
 
     String s = 'iam sharan kumar kolluru';
@@ -8,12 +8,12 @@ public class CaptializeEachWord {
     Boolean prevCharIsBlank = false;
     String currentString;
 
-    for (Integer i = 0; i < s.length(); i++) {
+    for(Integer i = 0; i < s.length(); i++) {
       currentString = i == 0 || prevCharIsBlank ? s.substring(i, i + 1).toUpperCase() : s.substring(i, i + 1);
       prevCharIsBlank = String.isBlank(currentString) ? true : false;
-      finalString += currentString;
+      finalString + = currentString;
     }
 
-    Syste, .debug('Final String :' + finalString);
+    System.debug('Final String :' + finalString);
   }
 }
